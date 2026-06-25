@@ -393,12 +393,23 @@ export default function Home() {
             </div>
 
             {/* Mobile-only Connection Status badge */}
-            <div className="sm:hidden flex items-center">
+            <div className="sm:hidden flex items-center gap-1.5">
               {connStatus === 'ready' ? (
-                <div className="flex items-center gap-1.5 text-[10px] text-emerald-400 font-bold uppercase tracking-wider bg-emerald-950/40 border border-emerald-900/30 px-2.5 py-1 rounded-full">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse-glow" />
-                  Ready
-                </div>
+                <>
+                  <div className="flex items-center gap-1.5 text-[10px] text-emerald-400 font-bold uppercase tracking-wider bg-emerald-950/40 border border-emerald-900/30 px-2.5 py-1 rounded-full">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse-glow" />
+                    Ready
+                  </div>
+                  <button
+                    onClick={async () => {
+                      await fetch('/api/whatsapp/disconnect', { method: 'POST' });
+                      setConnStatus('idle'); setQrCode(''); setStep('connect');
+                    }}
+                    className="text-[10px] text-rose-400 bg-rose-500/10 border border-rose-500/20 px-2 py-1 rounded-full font-bold uppercase tracking-wider"
+                  >
+                    ✕
+                  </button>
+                </>
               ) : (
                 <div className="flex items-center gap-1.5 text-[10px] text-slate-500 font-bold uppercase tracking-wider bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-full">
                   <span className="w-1.5 h-1.5 rounded-full bg-slate-700" />
@@ -460,12 +471,23 @@ export default function Home() {
           </nav>
 
           {/* Desktop-only Connection Status */}
-          <div className="hidden sm:flex items-center flex-shrink-0">
+          <div className="hidden sm:flex items-center gap-2 flex-shrink-0">
             {connStatus === 'ready' ? (
-              <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold uppercase tracking-wider bg-emerald-950/40 border border-emerald-900/30 px-3 py-1.5 rounded-full">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse-glow" />
-                Connected
-              </div>
+              <>
+                <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold uppercase tracking-wider bg-emerald-950/40 border border-emerald-900/30 px-3 py-1.5 rounded-full">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse-glow" />
+                  Connected
+                </div>
+                <button
+                  onClick={async () => {
+                    await fetch('/api/whatsapp/disconnect', { method: 'POST' });
+                    setConnStatus('idle'); setQrCode(''); setStep('connect');
+                  }}
+                  className="text-xs text-rose-400 hover:text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 px-3 py-1.5 rounded-full font-semibold uppercase tracking-wider transition-all"
+                >
+                  Disconnect
+                </button>
+              </>
             ) : (
               <div className="flex items-center gap-1.5 text-xs text-slate-500 font-semibold uppercase tracking-wider bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-full">
                 <span className="w-2 h-2 rounded-full bg-slate-700" />

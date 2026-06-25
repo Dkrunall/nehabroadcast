@@ -29,6 +29,15 @@ export const emitter: EventEmitter = state.emitter;
 export const isPaused = (): boolean => state.paused;
 export const setPaused = (v: boolean): void => { state.paused = v; };
 
+export async function destroyClient(): Promise<void> {
+  try { await state.client?.destroy(); } catch {}
+  state.client = undefined;
+  state.status = 'disconnected';
+  state.qr = undefined;
+  state.paused = false;
+  emitter.emit('status', 'disconnected');
+}
+
 export function initClient(): void {
   if (state.status === 'ready' || state.status === 'initializing') return;
 

@@ -39,6 +39,7 @@ export function initClient(): void {
     authStrategy: new LocalAuth({ dataPath: './.wwebjs_auth' }),
     puppeteer: {
       headless: true,
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
@@ -46,6 +47,8 @@ export function initClient(): void {
         '--disable-accelerated-2d-canvas',
         '--no-first-run',
         '--disable-gpu',
+        '--single-process',
+        '--no-zygote',
       ],
     },
   });
